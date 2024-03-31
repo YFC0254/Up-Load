@@ -7,8 +7,11 @@ import scipy.io as io
 
 # 读取、画出信号波形和功率谱
 # 读取语音信号
+
 # win下读取wav文件
-rate, data = wav.read('C:\\Users\\88486\\Desktop\\WorkSpace\\Up&Load\\通信原理\\suno.wav')
+# rate, data = wav.read('C:\\Users\\88486\\Desktop\\WorkSpace\\Up&Load\\通信原理\\suno.wav')
+# linux下读取wav文件
+rate, data = wav.read('suno.wav')
 
 # 画出信号波形
 def draw(data,name,rate,xlabel,ylabel):
