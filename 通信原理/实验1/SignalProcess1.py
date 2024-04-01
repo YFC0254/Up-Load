@@ -10,6 +10,8 @@ class AntiAliasingFilter:
     """
     # Butterworth低通滤波器设计
     def design_lowpass_filter(self, cutoff_frequency, sample_rate, filter_order):#输入截止频率，采样频率，滤波器阶数
+        if not cutoff_frequency or not sample_rate or not filter_order:
+            raise ValueError("cutoff_frequency, sample_rate, and filter_order must all be non-empty values")
         nyquist_rate = sample_rate / 2.0 #奈奎斯特频率
         normal_cutoff = cutoff_frequency / nyquist_rate #归一化截止频率
         b, a = signal.butter(filter_order, normal_cutoff, btype='low', analog=False)
@@ -19,6 +21,7 @@ class AntiAliasingFilter:
         # 计算阻带范围
         stopband_range = [cutoff_frequency, nyquist_rate]
         return b, a , passband_range, stopband_range #返回滤波器系数，通带范围，阻带范围
+
     # 应用滤波器
     def apply_lowpass_filter(self, data, cutoff_frequency, sample_rate, filter_order):#输入数据，截止频率，采样频率，滤波器阶数
         b, a = self.design_lowpass_filter(cutoff_frequency, sample_rate, filter_order)
