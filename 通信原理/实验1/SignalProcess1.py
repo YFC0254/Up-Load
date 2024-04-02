@@ -8,9 +8,10 @@ class AntiAliasingFilter:
     """
     低通滤波器的通带通常定义为从直流（0 Hz）开始，一直到截止频率。截止频率通常定义为信号通过滤波器时幅度衰减为原来的1/sqrt(2) (约-3dB)的频率。阻带则是滤波器消除或减少的频率范围。对于低通滤波器，阻带通常是从截止频率以上的频率开始。
     """
+
     # Butterworth低通滤波器设计
     def design_lowpass_filter(self, cutoff_frequency, sample_rate, filter_order):#输入截止频率，采样频率，滤波器阶数
-        if not cutoff_frequency or not sample_rate or not filter_order:
+        if not cutoff_frequency.all() or not sample_rate.all() or not filter_order.all() :
             raise ValueError("cutoff_frequency, sample_rate, and filter_order must all be non-empty values")
         nyquist_rate = sample_rate / 2.0 #奈奎斯特频率
         normal_cutoff = cutoff_frequency / nyquist_rate #归一化截止频率
@@ -24,7 +25,7 @@ class AntiAliasingFilter:
 
     # 应用滤波器
     def apply_lowpass_filter(self, data, cutoff_frequency, sample_rate, filter_order):#输入数据，截止频率，采样频率，滤波器阶数
-        b, a = self.design_lowpass_filter(cutoff_frequency, sample_rate, filter_order)
+        b, a , _, _ = self.design_lowpass_filter(self,cutoff_frequency, sample_rate, filter_order)
         filtered_data = signal.filtfilt(b, a, data)
         return filtered_data #返回滤波后的数据
 
